@@ -6,11 +6,11 @@ import java.io.IOException;
 
 public class CrawlerThread extends Thread{
 
-    private String targetLanguage = "";
-    private String url = "";
-    private int maxDepth;
+    private final String targetLanguage;
+    private final String url;
+    private final int maxDepth;
     private Translation translation;
-    private boolean translate = false;
+    private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private FileOutput filer;
     private Page page;
@@ -50,21 +50,18 @@ public class CrawlerThread extends Thread{
     private void setupTranslation() {
         try {
             translation = new Translation(targetLanguage, translate, authKey);
-        } catch (DeepLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void translatePages(Page page) {
         try {
+            //System.out.println("read for thread: "+this.getName());
             translation.translatePage(page);
-        } catch (DeepLException e) {
+        } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        } 
         if (this.page.getDepth() < maxDepth) {
             for (Page subPage : page.getSubPage()) {
                 translatePages(subPage);
@@ -73,9 +70,9 @@ public class CrawlerThread extends Thread{
 
     }
 
-    private synchronized void setupWriter() {
+    private void setupWriter() {
         try {
-            System.out.println("setup Writer for thread: "+this.getName());
+            //System.out.println("setup Writer for thread: "+this.getName());
             filer = new FileOutput("./report.md");
             filer.writeBeginning(page);
         } catch (IOException e) {
@@ -83,9 +80,9 @@ public class CrawlerThread extends Thread{
         }
     }
 
-    private synchronized void writeToFile(Page page) {
+    private void writeToFile(Page page) {
         try {
-            System.out.println("writing for thread: "+this.getName());
+            //System.out.println("writing for thread: "+this.getName());
             filer.writeBody(page);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -99,6 +96,7 @@ public class CrawlerThread extends Thread{
 
     private void readPage(Page page) {
         try {
+            //System.out.println("read for thread: "+this.getName());
             JsoupWrapper jsoupWrapper = new JsoupWrapper();
             jsoupWrapper.readWebPage(page.getUrl());
             page.setHeaderStringList(jsoupWrapper.getHeadersList());
