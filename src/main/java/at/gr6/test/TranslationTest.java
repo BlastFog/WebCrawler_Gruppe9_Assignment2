@@ -4,17 +4,13 @@ import at.gr6.crawler.Header;
 import at.gr6.crawler.Page;
 import at.gr6.crawler.Translation;
 import com.deepl.api.DeepLException;
-import com.deepl.api.Translator;
-import kotlin.collections.ArraysKt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
 
 class TranslationTest {
     static Translation translation;
@@ -36,20 +32,20 @@ class TranslationTest {
 
         translation.translatePage(testPage);
 
-        assertEquals(translated1,testPage.getHeaderList().get(0));
-        assertEquals(translated2,testPage.getHeaderList().get(1));
+        assertEquals(testPage.getHeaderList().get(0).getHeaderString(),translated1);
+        assertEquals(testPage.getHeaderList().get(1).getHeaderString(),translated2);
     }
 
     @Test
     void testGetSourceLang() throws DeepLException, InterruptedException {
         testTranslatePage();
         translation.setDetectedLanguage();
-        assertEquals(translation.getSourceLang(),"German");
+        assertEquals("German",translation.getSourceLang());
     }
 
     @Test
     void testGetTargetLang() {
-        assertEquals(translation.getTargetLang(),"English (British)");
+        assertEquals("English (British)",translation.getTargetLang());
     }
 
 

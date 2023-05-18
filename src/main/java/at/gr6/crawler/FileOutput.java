@@ -8,6 +8,8 @@ public class FileOutput {
     private final String path;
     private final FileWriter fileWriter;
 
+    PageFormatter pageFormatter;
+
 
 
     public static void clearFile(String path) throws IOException {
@@ -22,24 +24,27 @@ public class FileOutput {
         fileWriter = new FileWriter(this.path,true);
     }
 
-    public void writeBeginning(Page p) throws IOException {
+    public void writeBeginning(Page page) throws IOException {
         fileWriter.write("-----START OF FILE-----\n");
-        fileWriter.write("input: <a>" + p.getUrl() + "</a>");
+        fileWriter.write("input: <a>" + page.getUrl() + "</a>");
         fileWriter.write("\n");
     }
 
-    public void writeLanguage(Translation l) throws IOException {
-        fileWriter.write("<br>source language: " + l.getSourceLang());
+    public void writeLanguage(Translation language) throws IOException {
+        fileWriter.write("<br>source language: " + language.getSourceLang());
         fileWriter.write("\n");
-        fileWriter.write("<br>target language: " + l.getTargetLang());
+        fileWriter.write("<br>target language: " + language.getTargetLang());
         fileWriter.write("\n");
         fileWriter.write("<br>summary: ");
         fileWriter.write("\n");
     }
 
-    public void writeBody(Page p) throws IOException {
-        fileWriter.write(p.getformattedPage());
+    public void writeBody(Page page) throws Exception {
+        pageFormatter = new PageFormatter(page);
+        pageFormatter.generateOutputString();
+        fileWriter.write(pageFormatter.getOutputString());
     }
+
 
     public void closeFile() throws IOException {
         fileWriter.write("\n-----END OF FILE-----\n");

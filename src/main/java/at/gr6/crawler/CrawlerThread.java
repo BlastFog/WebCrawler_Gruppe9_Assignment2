@@ -86,7 +86,7 @@ public class CrawlerThread extends Thread{
         try {
             //System.out.println("writing for thread: "+this.getName());
             filer.writeBody(page);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         if (page.getDepth() < maxDepth) {

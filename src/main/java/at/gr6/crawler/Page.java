@@ -31,7 +31,7 @@ public class Page {
 
 
     public Page(String url, int depth) {
-        this.subPage = new ArrayList<Page>();
+        this.subPage = new ArrayList<>();
         this.url = url;
         this.depth = depth;
         this.isBroken = false;
@@ -59,45 +59,9 @@ public class Page {
     }
 
 
-    public String getformattedPage() {
-        String str = "";
-        for (String header : headerList) {
-            str += fixMarkdownFormat(header);
-            str += "\n";
-        }
-        str += "\n";
-        for (Page p : subPage) {
-            str += "<br> ";
-            str += setCorrectIndentation();
-            if (p.isBroken())
-                str += "broken link <a>" + p.getUrl() + "</a>\n";
-            else
-                str += "link to <a>" + p.getUrl() + "</a>\n";
-        }
-        return str;
-    }
-    private String fixMarkdownFormat(String header){
-        String headerGrade= "";
-        String headerString = "";
-        for(int i = 0;i<header.length();i++){
-            if(header.charAt(i)!='#'){
-                headerGrade  = header.substring(0,i);
-                headerString = header.substring(i);
-                break;
-            }
 
-        }
-        String result = headerGrade+" "+setCorrectIndentation()+headerString;
-        return result;
-    }
 
-    private String setCorrectIndentation() {
-        String indents = "";
-        for (int i = 0; i < depth; i++)
-            indents += "-";
-        indents += ">";
-        return (indents);
-    }
+
 
     public void setSubPages(ArrayList<String> linkList) {
         for (String link : linkList)

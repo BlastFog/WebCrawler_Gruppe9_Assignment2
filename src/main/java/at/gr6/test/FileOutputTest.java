@@ -1,14 +1,13 @@
 package at.gr6.test;
 
-import at.gr6.crawler.FileOutput;
-import at.gr6.crawler.Page;
-import at.gr6.crawler.Translation;
+import at.gr6.crawler.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,13 +17,19 @@ class FileOutputTest {
 
     String path = "writer_test.md";
 
-    FileOutput fileOutput;
+
 
     @Mock
     Page pageMock = mock(Page.class);
 
+    Page page;
+
     @Mock
-    Translation translationMoc = mock(Translation.class);
+    Translation translationMock = mock(Translation.class);
+
+    FileOutput fileOutput;
+
+
 
     FileReader reader;
     BufferedReader bufferedReader;
@@ -36,6 +41,16 @@ class FileOutputTest {
 
 
         //pageMock = new Page("https://orf.at/",1);
+    }
+
+    private void generateSamplePage(){
+        page = new Page("https://orf.at/",1);
+        ArrayList<String> linkList = new ArrayList<>();
+        linkList.add("https://orf.at/news");
+        ArrayList<Header> headerList = new ArrayList<>();
+        headerList.add(new Header("Sample Header",3));
+        page.setSubPages(linkList);
+        page.setHeaderStringList(headerList);
     }
 
     @Test
@@ -51,9 +66,9 @@ class FileOutputTest {
 
     @Test
     void writeLanguage() throws IOException {
-        when(translationMoc.getSourceLang()).thenReturn("German");
-        when(translationMoc.getTargetLang()).thenReturn("English(British)");
-        fileOutput.writeLanguage(translationMoc);
+        when(translationMock.getSourceLang()).thenReturn("German");
+        when(translationMock.getTargetLang()).thenReturn("English(British)");
+        fileOutput.writeLanguage(translationMock);
         fileOutput.closeWriter();
         String actual = readTest();
         String expected = "<br>source language: German\n<br>target language: English(British)\n<br>summary: \n";
@@ -61,13 +76,12 @@ class FileOutputTest {
     }
 
     @Test
-    void writeBody() throws IOException {
-        when(pageMock.getformattedPage()).thenReturn("### ->Sample Header \n\n ->https://orf.at/news\n");
-        assertDoesNotThrow(() -> fileOutput.writeBody(pageMock));
+    void writeBody() throws Exception {
+        generateSamplePage();
+        assertDoesNotThrow(() -> fileOutput.writeBody(page));
         fileOutput.closeWriter();
         String actual = readTest();
-        String expected = "### ->Sample Header \n\n ->https://orf.at/news\n";
-
+        String expected = "### ->Sample Header\n<br> -->link to <a>https://orf.at/news</a>\n";
         assertEquals(expected,actual);
 
 
@@ -77,7 +91,7 @@ class FileOutputTest {
     void closeFile() throws IOException {
         assertDoesNotThrow(()-> fileOutput.closeFile());
         String actual = readTest();
-        String expected = "\n-----END OF FILE-----";
+        String expected = "\n-----END OF FILE-----\n";
         assertEquals(expected,actual);
 
 
