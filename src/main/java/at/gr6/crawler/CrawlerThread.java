@@ -1,50 +1,45 @@
 package at.gr6.crawler;
 
+import com.deepl.api.DeepLException;
+
 import java.io.IOException;
 
-import com.deepl.api.*;
+public class CrawlerThread extends Thread{
 
-public class Main {
-    static String targetLanguage = "";
-    static int maxDepth;
-    static boolean translate = false;
-    static Page page;
-    static FileOutput filer;
+    private String targetLanguage = "";
+    private String url = "";
+    private int maxDepth;
+    private Translation translation;
+    private boolean translate = false;
+    private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
+    private FileOutput filer;
+    private Page page;
 
-
-    public static void main(String[] args) {
-        // new Args: depth, targetlang, translate boolean, links: 2...n
-        //url = args[0];
-
-        int numberOfLinks = args.length-3;
-
-        maxDepth = Integer.parseInt(args[0]);
-        targetLanguage = args[1];
-        if (args[2].equals("true"))
-            translate = true;
-
-        setupWriter();
-
-        CrawlerThread thread;
-
-        for(int i = 0; i < numberOfLinks; i++){
-            thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3],filer);
-            thread.start();
-        }
-
+    public CrawlerThread(int depth, String targetLanguage, boolean translate, String url, FileOutput filer) {
+        this.maxDepth = depth;
+        this.targetLanguage = targetLanguage;
+        this.translate = translate;
+        this.url = url;
+        this.filer = filer;
     }
 
-    private static void setupWriter() {
+    @Override
+    public void run() {
+        this.page = new Page(url, 1);
+        readPage(page);
+        //setupWriter();
+        setupTranslation();
+        translatePages(page);
+        writeLangHeader();
+        writeToFile(page);
         try {
-            filer = new FileOutput("./report.md");
-            filer.writeBeginning(page);
+            filer.closeFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    /*
-    private static void writeLangHeader() {
+    private void writeLangHeader() {
         try {
             translation.setDetectedLanguage();
             filer.writeLanguage(translation);
@@ -53,7 +48,7 @@ public class Main {
         }
     }
 
-    private static void setupTranslation() {
+    private void setupTranslation() {
         try {
             translation = new Translation(targetLanguage, translate, authKey);
         } catch (DeepLException e) {
@@ -63,7 +58,7 @@ public class Main {
         }
     }
 
-    private static void translatePages(Page page) {
+    private void translatePages(Page page) {
         try {
             translation.translatePage(page);
         } catch (DeepLException e) {
@@ -79,7 +74,7 @@ public class Main {
 
     }
 
-    private static void setupWriter() {
+    private void setupWriter() {
         try {
             filer = new FileOutput("./report.md");
             filer.writeBeginning(page);
@@ -88,7 +83,7 @@ public class Main {
         }
     }
 
-    private static void writeToFile(Page page) {
+    private void writeToFile(Page page) {
         try {
             filer.writeBody(page);
         } catch (IOException e) {
@@ -101,7 +96,7 @@ public class Main {
         }
     }
 
-    private static void readPage(Page page) {
+    private void readPage(Page page) {
         try {
             JsoupWrapper jsoupWrapper = new JsoupWrapper();
             jsoupWrapper.readWebPage(page.getUrl());
@@ -116,5 +111,4 @@ public class Main {
             page.setBroken(true);
         }
     }
-    */
 }
