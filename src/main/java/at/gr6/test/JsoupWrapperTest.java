@@ -1,19 +1,16 @@
 package at.gr6.test;
 
+import at.gr6.crawler.Header;
 import at.gr6.crawler.JsoupWrapper;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -59,10 +56,10 @@ class JsoupWrapperTest {
 
         jsoupWrapper = new JsoupWrapper(mockHeaderElements,mockLinkElements);
 
-        ArrayList<String> headerList = jsoupWrapper.getHeadersList();
+        ArrayList<Header> headerList = jsoupWrapper.getHeadersList();
 
         assertEquals(1,headerList.size());
-        assertEquals("#Header",headerList.get(0));
+        assertEquals("Header",headerList.get(0).getHeaderString());
     }
 
 

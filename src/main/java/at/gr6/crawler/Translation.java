@@ -27,15 +27,16 @@ public class Translation {
     public void translatePage(Page page) throws DeepLException, InterruptedException {
         if (translate) {
             TextResult result;
-            ArrayList<String> headerList = page.getHeaderStringList();
-            for (int i = 0; i < headerList.size(); i++) {
-                result = translator.translateText(headerList.get(i), sourceLangTag, targetLangTag);
+            ArrayList<Header> headerList = page.getHeaderList();
+            for (Header header: headerList) {
+                result = translator.translateText(header.getHeaderString(), sourceLangTag, targetLangTag);
                 String detectedLanguage = result.getDetectedSourceLanguage();
-                headerList.set(i, result.getText());
+                header.setHeaderString(result.getText());
                 updateLanguageStatistics(detectedLanguage);
             }
         }
     }
+
 
     public String getSourceLang() {
         return this.sourceLang;
