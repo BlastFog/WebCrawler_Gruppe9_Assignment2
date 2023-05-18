@@ -1,5 +1,6 @@
 package at.gr6.test;
 
+import at.gr6.crawler.Header;
 import at.gr6.crawler.Page;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PageTest {
     Page page;
     String url = "https://orf.at/";
-    String header = "###sample Header ";
+    Header sampleHeader = new Header("Sample Header",1);
     int depth = 1;
 
     @BeforeEach
@@ -29,12 +30,14 @@ class PageTest {
 
     @Test
     void testHeaderStringList() {
-        ArrayList<String> headerList = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            headerList.add(header + i);
+        ArrayList<Header> headerList = new ArrayList<>();
+        for (int i = 0; i < 10; i++){
+            sampleHeader = new Header("Sample Header"+i,1);
+            headerList.add(sampleHeader);
+        }
         page.setHeaderStringList(headerList);
 
-        ArrayList<String> actualHeaderStringList = page.getHeaderStringList();
+        ArrayList<String> actualHeaderStringList = page.getHeaderList();
         for (int i = 0; i < 10; i++)
             assertEquals(headerList.get(i), actualHeaderStringList.get(i));
     }

@@ -1,5 +1,6 @@
 package at.gr6.test;
 
+import at.gr6.crawler.Header;
 import at.gr6.crawler.Page;
 import at.gr6.crawler.Translation;
 import com.deepl.api.DeepLException;
@@ -28,15 +29,15 @@ class TranslationTest {
         String translated2 = "This is a test";
 
         Page testPage = new Page("https://example.com",1);
-        ArrayList<String> headerList = new ArrayList<>();
-        headerList.add("Willkommen auf dieser Test Seite");
-        headerList.add("Das ist ein test");
+        ArrayList<Header> headerList = new ArrayList<>();
+        headerList.add(new Header("Willkommen auf dieser Test Seite",1));
+        headerList.add(new Header("Das ist ein Test",1));
         testPage.setHeaderStringList(headerList);
 
         translation.translatePage(testPage);
 
-        assertEquals(translated1,testPage.getHeaderStringList().get(0));
-        assertEquals(translated2,testPage.getHeaderStringList().get(1));
+        assertEquals(translated1,testPage.getHeaderList().get(0));
+        assertEquals(translated2,testPage.getHeaderList().get(1));
     }
 
     @Test

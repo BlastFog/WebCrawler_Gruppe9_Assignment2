@@ -12,6 +12,7 @@ public class JsoupWrapper {
 
     private Elements headers;
     private Elements links;
+    private Document doc;
 
     public JsoupWrapper(){
     }
@@ -22,27 +23,26 @@ public class JsoupWrapper {
     }
 
     public void readWebPage(String url) throws Exception {
-        Document doc = Jsoup.connect(url).get();
+        connectViaJSoup(url);
         this.links = doc.select("a[href]");
         this.headers = doc.select("h1,h2,h3,h4,h5,h6");
     }
-    public ArrayList<String> getHeadersList(){
-        ArrayList<String> headerList = new ArrayList<String>();
-        for(Element header: this.headers)
-            headerList.add(detectHeaderGrade(header)+header.text());
+    private void connectViaJSoup(String url) throws IOException {
+        this.doc = Jsoup.connect(url).get();
+    }
+    public ArrayList<Header> getHeadersList(){
+        ArrayList<Header> headerList = new ArrayList<>();
+        for(Element header: this.headers){
+            int headerGrade = Integer.parseInt(""+header.tagName().charAt(1));
+            headerList.add(new Header(header.text(),headerGrade));
+        }
         return headerList;
     }
     public ArrayList<String> getLinkList(){
-        ArrayList<String> linkList = new ArrayList<String>();
+        ArrayList<String> linkList = new ArrayList<>();
         for(Element link: this.links)
             linkList.add(link.attr("abs:href"));
         return linkList;
-    }
-    private String detectHeaderGrade(Element header){
-        String str = "";
-        for (int i = Integer.parseInt(header.tagName().charAt(1) + ""); i > 0; i--)
-            str += "#";
-        return str;
     }
 
 }

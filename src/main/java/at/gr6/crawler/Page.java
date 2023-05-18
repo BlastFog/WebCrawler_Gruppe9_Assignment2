@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Page {
 
-    private ArrayList<String> headerStringList;
+    private ArrayList<Header> headerList;
     private boolean isBroken;
     private int depth;
     private String url;
@@ -17,8 +17,8 @@ public class Page {
         return this.url;
     }
 
-    public void setHeaderStringList(ArrayList<String> headerStringList) {
-        this.headerStringList = headerStringList;
+    public void setHeaderStringList(ArrayList<Header> headerStringList) {
+        this.headerList = headerStringList;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Page {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Page page = (Page) o;
-        return isBroken == page.isBroken && depth == page.depth && Objects.equals(headerStringList, page.headerStringList) && url.equals(page.url) && Objects.equals(subPage, page.subPage);
+        return isBroken == page.isBroken && depth == page.depth && Objects.equals(headerList, page.headerList) && url.equals(page.url) && Objects.equals(subPage, page.subPage);
     }
 
 
@@ -35,11 +35,11 @@ public class Page {
         this.url = url;
         this.depth = depth;
         this.isBroken = false;
-        this.headerStringList = new ArrayList<>();
+        this.headerList = new ArrayList<>();
     }
 
-    public ArrayList<String> getHeaderStringList() {
-        return this.headerStringList;
+    public ArrayList<Header> getHeaderList() {
+        return this.headerList;
     }
 
     public boolean isBroken() {
@@ -61,11 +61,9 @@ public class Page {
 
     public String getformattedPage() {
         String str = "";
-        int index = 0;
-        for (String header : headerStringList) {
-            str += fixMarkdownFormat(headerStringList.get(index));
+        for (String header : headerList) {
+            str += fixMarkdownFormat(header);
             str += "\n";
-            index++;
         }
         str += "\n";
         for (Page p : subPage) {

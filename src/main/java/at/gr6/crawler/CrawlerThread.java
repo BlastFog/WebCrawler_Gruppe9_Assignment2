@@ -15,6 +15,8 @@ public class CrawlerThread extends Thread{
     private FileOutput filer;
     private Page page;
 
+    private JsoupWrapper jsoupWrapper;
+
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
@@ -25,7 +27,7 @@ public class CrawlerThread extends Thread{
     @Override
     public void run() {
         this.page = new Page(url, 1);
-        readPage(page);
+        readPageFromJsoup(page);
         setupWriter();
         setupTranslation();
         translatePages(page);
@@ -93,21 +95,34 @@ public class CrawlerThread extends Thread{
             }
         }
     }
+    private void setUpJsoupWrapper(){
+        jsoupWrapper = new JsoupWrapper();
+    }
 
-    private void readPage(Page page) {
+    private void readPageFromJsoup(Page page) {
         try {
             //System.out.println("read for thread: "+this.getName());
-            JsoupWrapper jsoupWrapper = new JsoupWrapper();
+            setUpJsoupWrapper();
             jsoupWrapper.readWebPage(page.getUrl());
-            page.setHeaderStringList(jsoupWrapper.getHeadersList());
-            page.setSubPages(jsoupWrapper.getLinkList());
-            if (page.getDepth() < maxDepth) {
-                for (Page subPage : page.getSubPage()) {
-                    readPage(subPage);
-                }
-            }
+            setPageElements();
+            checkForDepthAndCallForNextDepth();
         } catch (Exception e) {
             page.setBroken(true);
         }
     }
+    private void setPageElements(){
+        page.setHeaderStringList(jsoupWrapper.getHeadersList());
+        page.setSubPages(jsoupWrapper.getLinkList());
+    }
+
+    private void checkForDepthAndCallForNextDepth(){
+        if(page.getDepth()<maxDepth){
+            for (Page subPage : page.getSubPage()) {
+                readPageFromJsoup(subPage);
+
+            }
+
+        }
+    }
+
 }

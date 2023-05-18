@@ -1,5 +1,6 @@
 package at.gr6.test;
 
+import at.gr6.crawler.Header;
 import at.gr6.crawler.JsoupWrapper;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -59,7 +60,7 @@ class JsoupWrapperTest {
 
         jsoupWrapper = new JsoupWrapper(mockHeaderElements,mockLinkElements);
 
-        ArrayList<String> headerList = jsoupWrapper.getHeadersList();
+        ArrayList<Header> headerList = jsoupWrapper.getHeadersList();
 
         assertEquals(1,headerList.size());
         assertEquals("#Header",headerList.get(0));
