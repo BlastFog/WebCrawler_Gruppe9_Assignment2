@@ -1,22 +1,25 @@
 package at.gr6.crawler;
 
-import org.mockito.InjectMocks;
-
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FileOutput {
-    private String path;
+    private final String path;
     private final FileWriter fileWriter;
 
 
 
-
+    public static void clearFile(String path) throws IOException {
+        PrintWriter writer = new PrintWriter(path);
+        writer.print("");
+        writer.close();
+    }
 
 
     public FileOutput(String path) throws IOException {
         this.path = path;
-        fileWriter = new FileWriter(path);
+        fileWriter = new FileWriter(this.path,true);
     }
 
     public void writeBeginning(Page p) throws IOException {
@@ -39,7 +42,7 @@ public class FileOutput {
     }
 
     public void closeFile() throws IOException {
-        fileWriter.write("\n-----END OF FILE-----");
+        fileWriter.write("\n-----END OF FILE-----\n");
         fileWriter.close();
     }
     public void  closeWriter() throws IOException {
