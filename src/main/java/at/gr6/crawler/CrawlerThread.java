@@ -15,19 +15,18 @@ public class CrawlerThread extends Thread{
     private FileOutput filer;
     private Page page;
 
-    public CrawlerThread(int depth, String targetLanguage, boolean translate, String url, FileOutput filer) {
+    public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
-        this.filer = filer;
     }
 
     @Override
     public void run() {
         this.page = new Page(url, 1);
         readPage(page);
-        //setupWriter();
+        setupWriter();
         setupTranslation();
         translatePages(page);
         writeLangHeader();
@@ -66,7 +65,7 @@ public class CrawlerThread extends Thread{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if (Main.page.getDepth() < maxDepth) {
+        if (this.page.getDepth() < maxDepth) {
             for (Page subPage : page.getSubPage()) {
                 translatePages(subPage);
             }
@@ -74,7 +73,7 @@ public class CrawlerThread extends Thread{
 
     }
 
-    private void setupWriter() {
+    private synchronized void setupWriter() {
         try {
             filer = new FileOutput("./report.md");
             filer.writeBeginning(page);

@@ -4,6 +4,7 @@ import org.mockito.InjectMocks;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FileOutput {
     private String path;
@@ -11,12 +12,16 @@ public class FileOutput {
 
 
 
-
+    public static void clearFile(String path) throws IOException {
+        PrintWriter writer = new PrintWriter(path);
+        writer.print("");
+        writer.close();
+    }
 
 
     public FileOutput(String path) throws IOException {
         this.path = path;
-        fileWriter = new FileWriter(path);
+        fileWriter = new FileWriter(path,true);
     }
 
     public void writeBeginning(Page p) throws IOException {

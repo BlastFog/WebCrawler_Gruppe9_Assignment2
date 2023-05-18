@@ -8,11 +8,9 @@ public class Main {
     static String targetLanguage = "";
     static int maxDepth;
     static boolean translate = false;
-    static Page page;
-    static FileOutput filer;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // new Args: depth, targetlang, translate boolean, links: 2...n
         //url = args[0];
 
@@ -23,24 +21,21 @@ public class Main {
         if (args[2].equals("true"))
             translate = true;
 
-        setupWriter();
+        try {
+            FileOutput.clearFile("./report.md");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         CrawlerThread thread;
 
         for(int i = 0; i < numberOfLinks; i++){
-            thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3],filer);
+            thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3]);
             thread.start();
+            thread.join();                  // illegal
+            System.out.println(i);
         }
 
-    }
-
-    private static void setupWriter() {
-        try {
-            filer = new FileOutput("./report.md");
-            filer.writeBeginning(page);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /*
