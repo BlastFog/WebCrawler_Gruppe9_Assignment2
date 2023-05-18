@@ -32,7 +32,7 @@ public class Main {
         for(int i = 0; i < numberOfLinks; i++){
             thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3]);
             thread.start();
-            thread.join();                  // illegal
+            //thread.join();                  // illegal
             System.out.println(i);
         }
 

@@ -75,6 +75,7 @@ public class CrawlerThread extends Thread{
 
     private synchronized void setupWriter() {
         try {
+            System.out.println("setup Writer for thread: "+this.getName());
             filer = new FileOutput("./report.md");
             filer.writeBeginning(page);
         } catch (IOException e) {
@@ -82,8 +83,9 @@ public class CrawlerThread extends Thread{
         }
     }
 
-    private void writeToFile(Page page) {
+    private synchronized void writeToFile(Page page) {
         try {
+            System.out.println("writing for thread: "+this.getName());
             filer.writeBody(page);
         } catch (IOException e) {
             throw new RuntimeException(e);
