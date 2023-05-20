@@ -1,103 +1,27 @@
 -----START OF FILE-----
-input: <a>https://proxer.me</a>
+input: <a>https://campus.aau.at</a>
 <br>source language: null
 <br>target language: English (British)
 <br>summary: 
-###Wir sind eine kostenlose und freie Community!...
-###Tutorials:
-<br> -->link to <a>https://proxer.me/</a>
-<br> -->link to <a>https://proxer.me/#top</a>
-<br> -->link to <a>https://proxer.me/impressum#top</a>
-<br> -->link to <a>https://proxer.me/donate#top</a>
-<br> -->link to <a>https://proxer.me/files#top</a>
-<br> -->link to <a>javascript:;</a>
-<br> -->link to <a>https://proxer.me/anime#top</a>
-<br> -->link to <a>https://proxer.me/anime/animeseries/rating/all#top</a>
-<br> -->link to <a>https://proxer.me/anime/animeseries/clicks/all#top</a>
-<br> -->link to <a>https://proxer.me/anime/airing#top</a>
-<br> -->link to <a>https://proxer.me/season#top</a>
-<br> -->link to <a>https://proxer.me/calendar#top</a>
-<br> -->link to <a>https://proxer.me/provider/proxerstream#top</a>
-<br> -->link to <a>https://proxer.me/provider/aod#top</a>
-<br> -->link to <a>https://proxer.me/provider/crunchyroll#top</a>
-<br> -->link to <a>https://proxer.me/provider/netflix#top</a>
-<br> -->link to <a>https://proxer.me/manga#top</a>
-<br> -->link to <a>https://proxer.me/manga/mangaseries/rating/all#top</a>
-<br> -->link to <a>https://proxer.me/manga/mangaseries/clicks/all#top</a>
-<br> -->link to <a>https://proxer.me/manga/airing#top</a>
-<br> -->link to <a>https://proxer.me/forum#top</a>
-<br> -->link to <a>https://discord.gg/XwrEDmA</a>
-<br> -->link to <a>https://proxer.me/forum#top</a>
-<br> -->link to <a>https://proxer.me/teamspeak#top</a>
-<br> -->link to <a>https://proxer.me/ucp?s=reminder&utm_source=nav#top</a>
-<br> -->link to <a>https://proxer.me/ucp?s=anime&utm_source=nav#top</a>
-<br> -->link to <a>https://proxer.me/ucp?s=manga&utm_source=nav#top</a>
-<br> -->link to <a>https://proxer.me/team#top</a>
-<br> -->link to <a>https://proxer.me/users#top</a>
-<br> -->link to <a>javascript:;</a>
-<br> -->link to <a>https://proxer.me/gallery#top</a>
-<br> -->link to <a>https://proxer.me/proxcast#top</a>
-<br> -->link to <a>https://proxer.me/subs#top</a>
-<br> -->link to <a>https://proxer.me/review#top</a>
-<br> -->link to <a>https://proxer.me/touzai#top</a>
-<br> -->link to <a>https://proxer.me/character#top</a>
-<br> -->link to <a>https://proxer.me/interprets#top</a>
-<br> -->link to <a>https://proxer.me/novel#top</a>
-<br> -->link to <a>https://proxer.me/persons#top</a>
-<br> -->link to <a>https://proxer.me/translatorgroups#top</a>
-<br> -->link to <a>https://proxer.me/industry#top</a>
-<br> -->link to <a>https://proxer.me/article#top</a>
-<br> -->link to <a>javascript:;</a>
-<br> -->link to <a>javascript:;</a>
-<br> -->link to <a>javascript:;</a>
-<br> -->link to <a>https://proxer.me/register#top</a>
-<br> -->link to <a>https://proxer.me/component/users/?view=reset#top</a>
-<br> -->link to <a>https://proxer.me/component/users/?view=remind#top</a>
-<br> -->link to <a>https://proxer.me/gallery?s=detail&id=53095#top</a>
-<br> -->link to <a>https://proxer.me/?set=start#top</a>
-<br> -->link to <a>https://proxer.me/?set=amv#top</a>
-<br> -->link to <a>https://proxer.me/?set=popular#top</a>
-<br> -->link to <a>https://proxer.me/anime/updates#top</a>
-<br> -->link to <a>https://proxer.me/manga/updates#top</a>
-<br> -->link to <a>https://proxer.me/calendar#top</a>
-<br> -->link to <a>https://proxer.me/?set=wio#top</a>
-<br> -->link to <a>https://proxer.me/?set=noted#top</a>
-<br> -->link to <a>https://proxer.me/forum/94-neue-animes-und-mangas/355934-informationen-zur-lizenzierung</a>
-<br> -->link to <a>https://proxer.me/wiki/Hilfe:Wie_schaue_ich_mir_einen_Anime_an%3F</a>
-<br> -->link to <a>https://proxer.me/wiki/Hilfe:Verlinken</a>
-<br> -->link to <a>https://proxer.me/wiki/Hilfe:Mangaupload#top</a>
-<br> -->link to <a>https://proxer.me/misc/missingstreams#top</a>
-<br> -->link to <a>https://proxer.me/misc/missingchapters#top</a>
-<br> -->link to <a>https://proxer.me/wiki/Hinzufügen_neuer_Einträge#top</a>
-<br> -->link to <a>https://proxer.me/misc/latest/?kat=anime#top</a>
-<br> -->link to <a>https://proxer.me/misc/latest/?kat=manga#top</a>
-<br> -->link to <a>https://proxer.me/forum/18-news-und-bekanntmachungen/148506-ap-geht-neue-wege.html#148506</a>
-<br> -->link to <a>https://proxer.me/touzai?id=390371</a>
-<br> -->link to <a>https://proxer.me/news#top</a>
-<br> -->link to <a>https://proxer.me/news/390371</a>
-<br> -->link to <a>https://proxer.me/forum/310</a>
-<br> -->link to <a>https://proxer.me/news/384561</a>
-<br> -->link to <a>https://proxer.me/forum/44</a>
-<br> -->link to <a>https://proxer.me/news/390368</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/390271</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/390363</a>
-<br> -->link to <a>https://proxer.me/forum/210</a>
-<br> -->link to <a>https://proxer.me/news/390364</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/390119</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/390285</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/390242</a>
-<br> -->link to <a>https://proxer.me/forum/56</a>
-<br> -->link to <a>https://proxer.me/news/386843</a>
-<br> -->link to <a>https://proxer.me/forum/96</a>
-<br> -->link to <a>https://twitter.com/proxerme</a>
-<br> -->link to <a>http://www.youtube.com/channel/UC7h-fT9Y9XFxuZ5GZpbcrtA/feed</a>
-<br> -->link to <a>http://www.sos-kinderdorf.de/</a>
-<br> -->link to <a>http://amnesty.de</a>
-<br> -->link to <a>https://github.com/proxer/ProxerAndroid/releases/download/1.11.3/app-1.11.3-release.apk</a>
+## ->Forschung
+## ->Studium
+## ->Weiterbildung
+## ->Fakultäten & Institute
+## ->Leitung & Verwaltung
+### ->Home
+### ->Web Mail
+### ->Suche
+### ->SiteMap
+<br> -->linkTo <a>https://campus.aau.at/</a>
+<br> -->linkTo <a>https://campus.aau.at/home?mode=thin</a>
+<br> -->linkTo <a>https://campus.aau.at/navmenu/fd.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/navmenu/studien.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/navmenu/weiterbildung.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/navmenu/fakultaeten.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/navmenu/leitung.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/</a>
+<br> -->linkTo <a>http://www.uni-klu.ac.at/zid/unimail.htm</a>
+<br> -->linkTo <a>https://campus.aau.at/index/suchformular.jsp</a>
+<br> -->linkTo <a>https://campus.aau.at/index/sitemap.jsp</a>
 
 -----END OF FILE-----

@@ -33,10 +33,15 @@ public class JsoupWrapper {
     public ArrayList<Header> getHeadersList(){
         ArrayList<Header> headerList = new ArrayList<>();
         for(Element header: this.headers){
-            int headerGrade = Integer.parseInt(""+header.tagName().charAt(1));
-            headerList.add(new Header(header.text(),headerGrade));
+            int headerGrade = getHeaderGrade(header);
+            if(!header.text().equals(""))
+                headerList.add(new Header(header.text(), headerGrade));
         }
         return headerList;
+    }
+
+    private int getHeaderGrade(Element header){
+       return Integer.parseInt(""+header.tagName().charAt(1));
     }
     public ArrayList<String> getLinkList(){
         ArrayList<String> linkList = new ArrayList<>();
