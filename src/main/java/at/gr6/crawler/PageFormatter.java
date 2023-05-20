@@ -1,25 +1,33 @@
 package at.gr6.crawler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 
 public class PageFormatter {
 
     private Page page;
-
     private final String brokenLinkString = "broken link <a>";
     private final String normalLinkString = "linkTo <a>";
-
     private String outputString;
 
-    public PageFormatter(Page page){
+    public PageFormatter(Page page) throws IOException {
         this.page = page;
     }
 
-    public void generateOutputString(){
+    public void generateOutputString() throws IOException {
         outputString = "";
         appendHeader();
         appendLinks();
     }
+
+
     private void appendHeader(){
         List<Header> headerList = page.getHeaderList();
         for (Header header : headerList) {
@@ -33,10 +41,12 @@ public class PageFormatter {
         for(Page p: page.getSubPage()){
             outputString+="<br> ";
             addIndentation(p.getDepth());
-            if(p.isBroken())
-                outputString+=brokenLinkString + p.getUrl() + "</a>\n";
-            else
+            if(p.isBroken()) {
+                outputString += brokenLinkString + p.getUrl() + "</a>\n";
+            }
+            else {
                 outputString += normalLinkString + p.getUrl() + "</a>\n";
+            }
         }
     }
 

@@ -1,8 +1,12 @@
 package at.gr6.crawler;
 
 import com.deepl.api.DeepLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Proxy;
+import java.util.Map;
 
 public class CrawlerThread extends Thread{
 
@@ -14,14 +18,21 @@ public class CrawlerThread extends Thread{
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private FileOutput filer;
     private Page page;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
+    //private CrawlerThread proxyInstance;
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
+
+        /*this.proxyInstance = (CrawlerThread) Proxy.newProxyInstance(
+                CrawlerThread.class.getClassLoader(),
+                new Class[] {CrawlerThread.class},
+                new DynamicInvocationHandler()
+        );*/
     }
 
     @Override
@@ -59,7 +70,6 @@ public class CrawlerThread extends Thread{
 
     private void translatePages(Page page) {
         try {
-            //System.out.println("read for thread: "+this.getName());
             translation.translatePage(page);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
@@ -74,7 +84,6 @@ public class CrawlerThread extends Thread{
 
     private void setupWriter() {
         try {
-            //System.out.println("setup Writer for thread: "+this.getName());
             filer = new FileOutput("./report.md");
             filer.writeBeginning(page);
         } catch (IOException e) {
@@ -84,7 +93,6 @@ public class CrawlerThread extends Thread{
 
     private void writeToFile(Page page) {
         try {
-            //System.out.println("writing for thread: "+this.getName());
             filer.writeBody(page);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -101,25 +109,26 @@ public class CrawlerThread extends Thread{
 
     private void readPageFromJsoup(Page page) {
         try {
-            //System.out.println("read for thread: "+this.getName());
             setUpJsoupWrapper();
             jsoupWrapper.readWebPage(page.getUrl());
-            setPageElements();
-            checkForDepthAndCallForNextDepth();
+            setPageElements(page);
+            checkForDepthAndCallForNextDepth(page);
         } catch (Exception e) {
             page.setBroken(true);
+            LOGGER.info("Broken Link detected: {}",page.getUrl());
+            //proxyInstance.get("Broken Link detected:"+page.getUrl());
+            //proxyInstance.readPageFromJsoup(page);
         }
     }
-    private void setPageElements(){
+    private void setPageElements(Page page){
         page.setHeaderStringList(jsoupWrapper.getHeadersList());
         page.setSubPages(jsoupWrapper.getLinkList());
     }
 
-    private void checkForDepthAndCallForNextDepth(){
+    private void checkForDepthAndCallForNextDepth(Page page){
         if(page.getDepth()<maxDepth){
             for (Page subPage : page.getSubPage()) {
                 readPageFromJsoup(subPage);
-
             }
 
         }
