@@ -58,11 +58,6 @@ public class Page {
         return this.depth;
     }
 
-
-
-
-
-
     public void setSubPages(ArrayList<String> linkList) {
         for (String link : linkList)
             this.subPage.add(new Page(link, this.depth + 1));

@@ -3,13 +3,14 @@ package at.gr6.crawler;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class FileOutput {
     private final String path;
     private final FileWriter fileWriter;
-
     PageFormatter pageFormatter;
-
 
 
     public static void clearFile(String path) throws IOException {
@@ -18,11 +19,11 @@ public class FileOutput {
         writer.close();
     }
 
-
     public FileOutput(String path) throws IOException {
         this.path = path;
         fileWriter = new FileWriter(this.path,true);
     }
+
 
     public void writeBeginning(Page page) throws IOException {
         fileWriter.write("-----START OF FILE-----\n");
