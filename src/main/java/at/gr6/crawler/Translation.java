@@ -3,7 +3,6 @@ package at.gr6.crawler;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 import com.deepl.api.Translator;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ public class Translation {
         this.targetLangTag = targetLangTag;
         this.targetLang = getFullLanguage(targetLangTag);
         this.translate = translate;
-        this.languageStatistics = new HashMap<String, Integer>();
+        this.languageStatistics = new HashMap<>();
     }
 
     public void translatePage(Page page) throws DeepLException, InterruptedException {
@@ -30,7 +29,6 @@ public class Translation {
             TextResult result;
             ArrayList<Header> headerList = page.getHeaderList();
             for (Header header : headerList) {
-                System.out.println(header.getHeaderString());
                 result = translator.translateText(header.getHeaderString(), sourceLangTag, targetLangTag);
                 String detectedLanguage = result.getDetectedSourceLanguage();
                 header.setHeaderString(result.getText());
@@ -54,7 +52,7 @@ public class Translation {
         else languageStatistics.put(detectedLanguage, languageStatistics.get(detectedLanguage) + 1);
     }
 
-    public void setDetectedLanguage() throws DeepLException, InterruptedException {
+    public void setDetectedLanguage() {
         int max = 0;
         String lang = "";
         for (String i : languageStatistics.keySet()) {
@@ -65,7 +63,6 @@ public class Translation {
             }
         }
         this.sourceLangTag = lang;
-        System.out.println("Language: " + this.sourceLangTag);
         this.sourceLang = getFullLanguage(lang);
     }
 
@@ -81,7 +78,7 @@ public class Translation {
     }*/
 
     private String getFullLanguage(String langTag) {
-        String sourceLanguage = "";
+        String sourceLanguage;
         switch (langTag.toUpperCase()) {
             case "BG":
                 sourceLanguage = "Bulgarian";
@@ -180,7 +177,7 @@ public class Translation {
                 sourceLanguage = "Chinese (simplified)";
                 break;
             default:
-                sourceLanguage = "Kärntnerisch";
+                sourceLanguage = "Not enough information";
         }
         return sourceLanguage;
     }

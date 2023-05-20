@@ -55,7 +55,7 @@ public class CrawlerThread extends Thread{
         try {
             translation.setDetectedLanguage();
             filer.writeLanguage(translation);
-        } catch (IOException | DeepLException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
