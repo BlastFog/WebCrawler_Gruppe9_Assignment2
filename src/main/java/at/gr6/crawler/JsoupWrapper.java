@@ -34,7 +34,7 @@ public class JsoupWrapper {
         ArrayList<Header> headerList = new ArrayList<>();
         for(Element header: this.headers){
             int headerGrade = getHeaderGrade(header);
-            if(header.text().equals(""))
+            if(!header.text().equals(""))
                 headerList.add(new Header(header.text(), headerGrade));
         }
         return headerList;
