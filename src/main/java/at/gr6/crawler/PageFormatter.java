@@ -10,18 +10,18 @@ import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 
-public class PageFormatter {
+public class PageFormatter implements Formatter {
 
     private Page page;
     private final String brokenLinkString = "broken link <a>";
-    private final String normalLinkString = "linkTo <a>";
+    private final String normalLinkString = "link to <a>";
     private String outputString;
 
-    public PageFormatter(Page page) throws IOException {
+    public PageFormatter(Page page) {
         this.page = page;
     }
 
-    public void generateOutputString() throws IOException {
+    public void generateOutputString() {
         outputString = "";
         appendHeader();
         appendLinks();

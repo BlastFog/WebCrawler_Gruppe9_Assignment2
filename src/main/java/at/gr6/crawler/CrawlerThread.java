@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Proxy;
-import java.util.Map;
 
 public class CrawlerThread extends Thread{
 
@@ -16,7 +14,7 @@ public class CrawlerThread extends Thread{
     private Translation translation;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
-    private FileOutput filer;
+    private ReportWriter filer;
     private Page page;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
@@ -84,7 +82,7 @@ public class CrawlerThread extends Thread{
 
     private void setupWriter() {
         try {
-            filer = new FileOutput("./report.md");
+            filer = new ReportWriter("./report.md");
             filer.writeBeginning(page);
         } catch (IOException e) {
             throw new RuntimeException(e);

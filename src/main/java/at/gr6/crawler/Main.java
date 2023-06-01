@@ -20,7 +20,7 @@ public class Main {
         if (args[2].equals("true"))
             translate = true;
         try {
-            FileOutput.clearFile("./report.md");
+            ReportWriter.clearFile("./report.md");
             //ExceptionLogger.initializeLogger();
         } catch (IOException e) {
             throw new RuntimeException(e);

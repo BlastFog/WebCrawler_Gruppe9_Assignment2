@@ -66,16 +66,6 @@ public class Translation {
         this.sourceLang = getFullLanguage(lang);
     }
 
-    /*private String getFullLanguage(String langTag) throws DeepLException, InterruptedException {
-        if (langTag.equals("en"))        // replace
-            langTag = "en-GB";
-        for (com.deepl.api.Language l : translator.getTargetLanguages()) {
-            if (l.getCode().toLowerCase().equals(langTag.toLowerCase())) {
-                return l.getName();
-            }
-        }
-        return null;
-    }*/
 
     private String getFullLanguage(String langTag) {
         String sourceLanguage;
