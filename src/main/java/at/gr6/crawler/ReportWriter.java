@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 public class ReportWriter implements FileOutput {
     private final String path;
     private final FileWriter fileWriter;
-    Formatter formatter;
+    private Formatter formatter;
 
     /**
      * Empties the file
