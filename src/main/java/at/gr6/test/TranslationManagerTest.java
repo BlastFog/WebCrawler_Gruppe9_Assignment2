@@ -14,8 +14,7 @@ class TranslationManagerTest {
     static TranslationManager translationManager;
     @BeforeEach
     private void setup() throws DeepLException, InterruptedException{
-        LanguageStatisticsProvider languageStatistics = new LanguageStatisticsManager();
-        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx",languageStatistics);
+        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx");
     }
 
     @Test

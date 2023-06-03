@@ -15,7 +15,7 @@ public class TranslationManager {
     private boolean translate;
     private LanguageStatisticsProvider languageStatisticsProvider;
 
-    public TranslationManager(String targetLangTag, boolean translate, String authKey, LanguageStatisticsProvider languageStatisticsProvider) throws DeepLException, InterruptedException {
+    public TranslationManager(String targetLangTag, boolean translate, String authKey) throws DeepLException, InterruptedException {
         this.translator = new Translator(authKey);
         this.targetLangTag = targetLangTag;
         this.targetLang = LanguageTagConverter.getFullLanguage(targetLangTag);
@@ -48,5 +48,4 @@ public class TranslationManager {
         this.sourceLangTag = this.languageStatisticsProvider.getMostCommonLanguage();
         this.sourceLang = LanguageTagConverter.getFullLanguage(this.sourceLangTag);
     }
-
 }

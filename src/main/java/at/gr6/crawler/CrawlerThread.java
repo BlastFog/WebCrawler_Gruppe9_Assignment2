@@ -17,14 +17,12 @@ public class CrawlerThread extends Thread{
     private Page page;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
-    private LanguageStatisticsProvider languageStatistics;
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
-        this.languageStatistics = new LanguageStatisticsManager();
     }
 
     @Override
@@ -59,7 +57,7 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translationManager = new TranslationManager(targetLanguage, translate, authKey, languageStatistics);
+            translationManager = new TranslationManager(targetLanguage, translate, authKey);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }
