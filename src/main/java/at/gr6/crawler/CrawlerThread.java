@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class CrawlerThread extends Thread{
-
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
@@ -32,17 +31,21 @@ public class CrawlerThread extends Thread{
     public void run() {
         this.page = new Page(url, 1);
         readPageRecursivelyFromJsoup(page);
-        setupWriter();
         setupTranslation();
         translatePages(page);
-        writeLangHeader();
-        writeToFile(page);
+        setupFileWriting();
         try {
             filer.closeFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private synchronized void setupFileWriting(){
+        setupWriter();
+        writeLangHeader();
+        writeToFile(page);
     }
 
     private void writeLangHeader() {
@@ -67,7 +70,7 @@ public class CrawlerThread extends Thread{
             translationManager.translatePage(page);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
-        } 
+        }
         if (this.page.getDepth() < maxDepth) {
             for (Page subPage : page.getSubPage()) {
                 translatePages(subPage);

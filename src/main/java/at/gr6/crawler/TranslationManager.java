@@ -20,7 +20,7 @@ public class TranslationManager {
         this.targetLangTag = targetLangTag;
         this.targetLang = LanguageTagConverter.getFullLanguage(targetLangTag);
         this.translate = translate;
-        this.languageStatisticsProvider = languageStatisticsProvider;
+        this.languageStatisticsProvider = new LanguageStatisticsManager();
     }
 
     public void translatePage(Page page) throws DeepLException, InterruptedException {
@@ -31,7 +31,7 @@ public class TranslationManager {
                 result = translator.translateText(header.getHeaderString(), sourceLangTag, targetLangTag);
                 String detectedLanguage = result.getDetectedSourceLanguage();
                 header.setHeaderString(result.getText());
-                languageStatisticsProvider.updateLanguageStatistics(detectedLanguage);
+                this.languageStatisticsProvider.updateLanguageStatistics(detectedLanguage);
             }
         }
     }
@@ -45,7 +45,7 @@ public class TranslationManager {
     }
 
     public void setDetectedLanguage() {
-        this.sourceLangTag = languageStatisticsProvider.getMostCommonLanguage();
+        this.sourceLangTag = this.languageStatisticsProvider.getMostCommonLanguage();
         this.sourceLang = LanguageTagConverter.getFullLanguage(this.sourceLangTag);
     }
 
