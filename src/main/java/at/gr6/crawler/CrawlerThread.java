@@ -11,7 +11,7 @@ public class CrawlerThread extends Thread{
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
-    private Translation translation;
+    private TranslationManager translationManager;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private ReportWriter filer;
@@ -51,8 +51,8 @@ public class CrawlerThread extends Thread{
 
     private void writeLangHeader() {
         try {
-            translation.setDetectedLanguage();
-            filer.writeLanguage(translation);
+            translationManager.setDetectedLanguage();
+            filer.writeLanguage(translationManager);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +60,7 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translation = new Translation(targetLanguage, translate, authKey);
+            translationManager = new TranslationManager(targetLanguage, translate, authKey);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +68,7 @@ public class CrawlerThread extends Thread{
 
     private void translatePages(Page page) {
         try {
-            translation.translatePage(page);
+            translationManager.translatePage(page);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         } 

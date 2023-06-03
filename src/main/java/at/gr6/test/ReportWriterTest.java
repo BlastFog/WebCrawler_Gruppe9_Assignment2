@@ -25,7 +25,7 @@ class ReportWriterTest {
     Page page;
 
     @Mock
-    Translation translationMock = mock(Translation.class);
+    TranslationManager translationManagerMock = mock(TranslationManager.class);
 
     ReportWriter reportWriter;
 
@@ -66,9 +66,9 @@ class ReportWriterTest {
 
     @Test
     void writeLanguage() throws IOException {
-        when(translationMock.getSourceLang()).thenReturn("German");
-        when(translationMock.getTargetLang()).thenReturn("English(British)");
-        reportWriter.writeLanguage(translationMock);
+        when(translationManagerMock.getSourceLang()).thenReturn("German");
+        when(translationManagerMock.getTargetLang()).thenReturn("English(British)");
+        reportWriter.writeLanguage(translationManagerMock);
         reportWriter.closeWriter();
         String actual = readTest();
         String expected = "<br>source language: German\n<br>target language: English(British)\n<br>summary: \n";

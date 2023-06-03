@@ -29,7 +29,7 @@ public class ReportWriter implements FileOutput {
         fileWriter.write("\n");
     }
 
-    public void writeLanguage(Translation language) throws IOException {
+    public void writeLanguage(TranslationManager language) throws IOException {
         fileWriter.write("<br>source language: " + language.getSourceLang());
         fileWriter.write("\n");
         fileWriter.write("<br>target language: " + language.getTargetLang());
