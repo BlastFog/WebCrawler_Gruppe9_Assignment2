@@ -8,7 +8,6 @@ public class Main {
     static int maxDepth;
     static boolean translate = false;
 
-
     public static void main(String[] args) {
         // new Args: depth, targetlang, translate boolean, links: 2...n
         //url = args[0];
@@ -20,8 +19,7 @@ public class Main {
         if (args[2].equals("true"))
             translate = true;
         try {
-            FileOutput.clearFile("./report.md");
-            //ExceptionLogger.initializeLogger();
+            ReportWriter.clearFile("./report.md");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

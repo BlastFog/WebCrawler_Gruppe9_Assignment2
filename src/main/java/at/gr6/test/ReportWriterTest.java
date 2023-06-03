@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class FileOutputTest {
+class ReportWriterTest {
 
     String path = "writer_test.md";
 
@@ -25,9 +25,9 @@ class FileOutputTest {
     Page page;
 
     @Mock
-    Translation translationMock = mock(Translation.class);
+    TranslationManager translationManagerMock = mock(TranslationManager.class);
 
-    FileOutput fileOutput;
+    ReportWriter reportWriter;
 
 
 
@@ -36,7 +36,7 @@ class FileOutputTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        fileOutput = new FileOutput(path);
+        reportWriter = new ReportWriter(path);
 
 
 
@@ -57,8 +57,8 @@ class FileOutputTest {
     void writeBeginning() throws IOException {
 
         when(pageMock.getUrl()).thenReturn("https://orf.at/");
-        fileOutput.writeBeginning(pageMock);
-        fileOutput.closeWriter();
+        reportWriter.writeBeginning(pageMock);
+        reportWriter.closeWriter();
         String actual = readTest();
         String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/</a>\n";
         assertEquals(expected,actual);
@@ -66,10 +66,10 @@ class FileOutputTest {
 
     @Test
     void writeLanguage() throws IOException {
-        when(translationMock.getSourceLang()).thenReturn("German");
-        when(translationMock.getTargetLang()).thenReturn("English(British)");
-        fileOutput.writeLanguage(translationMock);
-        fileOutput.closeWriter();
+        when(translationManagerMock.getSourceLang()).thenReturn("German");
+        when(translationManagerMock.getTargetLang()).thenReturn("English(British)");
+        reportWriter.writeLanguage(translationManagerMock);
+        reportWriter.closeWriter();
         String actual = readTest();
         String expected = "<br>source language: German\n<br>target language: English(British)\n<br>summary: \n";
         assertEquals(expected,actual);
@@ -78,8 +78,8 @@ class FileOutputTest {
     @Test
     void writeBody() throws Exception {
         generateSamplePage();
-        assertDoesNotThrow(() -> fileOutput.writeBody(page));
-        fileOutput.closeWriter();
+        assertDoesNotThrow(() -> reportWriter.writeBody(page));
+        reportWriter.closeWriter();
         String actual = readTest();
         String expected = "### ->Sample Header\n<br> -->link to <a>https://orf.at/news</a>\n";
         assertEquals(expected,actual);
@@ -89,7 +89,7 @@ class FileOutputTest {
 
     @Test
     void closeFile() throws IOException {
-        assertDoesNotThrow(()-> fileOutput.closeFile());
+        assertDoesNotThrow(()-> reportWriter.closeFile());
         String actual = readTest();
         String expected = "\n-----END OF FILE-----\n";
         assertEquals(expected,actual);

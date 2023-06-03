@@ -5,34 +5,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Proxy;
-import java.util.Map;
 
 public class CrawlerThread extends Thread{
 
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
-    private Translation translation;
+    private TranslationManager translationManager;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private FileOutput filer;
     private Page page;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
-    //private CrawlerThread proxyInstance;
+    private LanguageStatisticsProvider languageStatistics;
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
-
-        /*this.proxyInstance = (CrawlerThread) Proxy.newProxyInstance(
-                CrawlerThread.class.getClassLoader(),
-                new Class[] {CrawlerThread.class},
-                new DynamicInvocationHandler()
-        );*/
+        this.languageStatistics = new LanguageStatisticsManager();
     }
 
     @Override
@@ -49,12 +42,13 @@ public class CrawlerThread extends Thread{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     private void writeLangHeader() {
         try {
-            translation.setDetectedLanguage();
-            filer.writeLanguage(translation);
+            translationManager.setDetectedLanguage();
+            filer.writeLanguage(translationManager);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,7 +56,7 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translation = new Translation(targetLanguage, translate, authKey);
+            translationManager = new TranslationManager(targetLanguage, translate, authKey, languageStatistics);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +64,7 @@ public class CrawlerThread extends Thread{
 
     private void translatePages(Page page) {
         try {
-            translation.translatePage(page);
+            translationManager.translatePage(page);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         } 
@@ -84,7 +78,7 @@ public class CrawlerThread extends Thread{
 
     private void setupWriter() {
         try {
-            filer = new FileOutput("./report.md");
+            filer = new ReportWriter("./report.md");
             filer.writeBeginning(page);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -116,8 +110,6 @@ public class CrawlerThread extends Thread{
         } catch (Exception e) {
             page.setBroken(true);
             LOGGER.info("Broken Link detected: {}",page.getUrl());
-            //proxyInstance.get("Broken Link detected:"+page.getUrl());
-            //proxyInstance.readPageFromJsoup(page);
         }
     }
     private void setPageElements(Page page){
@@ -130,7 +122,6 @@ public class CrawlerThread extends Thread{
             for (Page subPage : page.getSubPage()) {
                 readPageFromJsoup(subPage);
             }
-
         }
     }
 

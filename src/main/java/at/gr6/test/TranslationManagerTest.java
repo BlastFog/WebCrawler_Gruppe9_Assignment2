@@ -1,8 +1,6 @@
 package at.gr6.test;
 
-import at.gr6.crawler.Header;
-import at.gr6.crawler.Page;
-import at.gr6.crawler.Translation;
+import at.gr6.crawler.*;
 import com.deepl.api.DeepLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,11 +10,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class TranslationTest {
-    static Translation translation;
+class TranslationManagerTest {
+    static TranslationManager translationManager;
     @BeforeEach
     private void setup() throws DeepLException, InterruptedException{
-        translation = new Translation("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx");
+        LanguageStatisticsProvider languageStatistics = new LanguageStatisticsManager();
+        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx",languageStatistics);
     }
 
     @Test
@@ -30,7 +29,7 @@ class TranslationTest {
         headerList.add(new Header("Das ist ein Test",1));
         testPage.setHeaderStringList(headerList);
 
-        translation.translatePage(testPage);
+        translationManager.translatePage(testPage);
 
         assertEquals(testPage.getHeaderList().get(0).getHeaderString(),translated1);
         assertEquals(testPage.getHeaderList().get(1).getHeaderString(),translated2);
@@ -39,13 +38,13 @@ class TranslationTest {
     @Test
     void testGetSourceLang() throws DeepLException, InterruptedException {
         testTranslatePage();
-        translation.setDetectedLanguage();
-        assertEquals("German",translation.getSourceLang());
+        translationManager.setDetectedLanguage();
+        assertEquals("German", translationManager.getSourceLang());
     }
 
     @Test
     void testGetTargetLang() {
-        assertEquals("English (British)",translation.getTargetLang());
+        assertEquals("English (British)", translationManager.getTargetLang());
     }
 
 
