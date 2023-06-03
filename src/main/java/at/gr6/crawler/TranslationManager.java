@@ -5,7 +5,6 @@ import com.deepl.api.TextResult;
 import com.deepl.api.Translator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TranslationManager {
     private Translator translator;
@@ -14,12 +13,14 @@ public class TranslationManager {
     private String sourceLang;
     private String targetLang;
     private boolean translate;
+    private LanguageStatisticsProvider languageStatisticsProvider;
 
-    public TranslationManager(String targetLangTag, boolean translate, String authKey) throws DeepLException, InterruptedException {
+    public TranslationManager(String targetLangTag, boolean translate, String authKey, LanguageStatisticsProvider languageStatisticsProvider) throws DeepLException, InterruptedException {
         this.translator = new Translator(authKey);
         this.targetLangTag = targetLangTag;
         this.targetLang = LanguageTagConverter.getFullLanguage(targetLangTag);
         this.translate = translate;
+        this.languageStatisticsProvider = languageStatisticsProvider;
     }
 
     public void translatePage(Page page) throws DeepLException, InterruptedException {
@@ -30,7 +31,7 @@ public class TranslationManager {
                 result = translator.translateText(header.getHeaderString(), sourceLangTag, targetLangTag);
                 String detectedLanguage = result.getDetectedSourceLanguage();
                 header.setHeaderString(result.getText());
-                LanguageStatisticsManager.updateLanguageStatistics(detectedLanguage);           // SRP?
+                languageStatisticsProvider.updateLanguageStatistics(detectedLanguage);           // SRP?
             }
         }
     }
@@ -45,7 +46,7 @@ public class TranslationManager {
     }
 
     public void setDetectedLanguage() {
-        this.sourceLangTag = LanguageStatisticsManager.getMostCommonLanguage();
+        this.sourceLangTag = languageStatisticsProvider.getMostCommonLanguage();
         this.sourceLang = LanguageTagConverter.getFullLanguage(this.sourceLangTag);
     }
 

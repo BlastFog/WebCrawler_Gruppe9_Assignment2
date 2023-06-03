@@ -18,6 +18,7 @@ public class CrawlerThread extends Thread{
     private Page page;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
+    private LanguageStatisticsProvider languageStatistics;
     //private CrawlerThread proxyInstance;
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
@@ -25,6 +26,7 @@ public class CrawlerThread extends Thread{
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
+        this.languageStatistics = new LanguageStatisticsManager();
 
         /*this.proxyInstance = (CrawlerThread) Proxy.newProxyInstance(
                 CrawlerThread.class.getClassLoader(),
@@ -60,7 +62,7 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translationManager = new TranslationManager(targetLanguage, translate, authKey);
+            translationManager = new TranslationManager(targetLanguage, translate, authKey, languageStatistics);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }

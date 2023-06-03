@@ -1,8 +1,6 @@
 package at.gr6.test;
 
-import at.gr6.crawler.Header;
-import at.gr6.crawler.Page;
-import at.gr6.crawler.TranslationManager;
+import at.gr6.crawler.*;
 import com.deepl.api.DeepLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,8 @@ class TranslationManagerTest {
     static TranslationManager translationManager;
     @BeforeEach
     private void setup() throws DeepLException, InterruptedException{
-        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx");
+        LanguageStatisticsProvider languageStatistics = new LanguageStatisticsManager();
+        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx",languageStatistics);
     }
 
     @Test

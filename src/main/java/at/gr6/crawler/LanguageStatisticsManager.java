@@ -2,16 +2,16 @@ package at.gr6.crawler;
 
 import java.util.HashMap;
 
-public class LanguageStatisticsManager {
+public class LanguageStatisticsManager implements LanguageStatisticsProvider{
     private static HashMap<String, Integer> languageStatistics = new HashMap<>();
 
-    public static void updateLanguageStatistics(String detectedLanguage) {
+    public void updateLanguageStatistics(String detectedLanguage) {
         if (!languageStatistics.containsKey(detectedLanguage))
             languageStatistics.put(detectedLanguage, 1);
         else languageStatistics.put(detectedLanguage, languageStatistics.get(detectedLanguage) + 1);
     }
 
-    public static String getMostCommonLanguage() {
+    public String getMostCommonLanguage() {
         int max = 0;
         String lang = "";
         for (String language : languageStatistics.keySet()) {
@@ -24,7 +24,7 @@ public class LanguageStatisticsManager {
         return lang;
     }
 
-    public static HashMap<String, Integer> getLanguageStatistics() {
+    public HashMap<String, Integer> getLanguageStatistics() {
         return languageStatistics;
     }
 }
