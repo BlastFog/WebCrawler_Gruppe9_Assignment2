@@ -31,7 +31,7 @@ public class TranslationManager {
                 result = translator.translateText(header.getHeaderString(), sourceLangTag, targetLangTag);
                 String detectedLanguage = result.getDetectedSourceLanguage();
                 header.setHeaderString(result.getText());
-                languageStatisticsProvider.updateLanguageStatistics(detectedLanguage);           // SRP?
+                languageStatisticsProvider.updateLanguageStatistics(detectedLanguage);
             }
         }
     }

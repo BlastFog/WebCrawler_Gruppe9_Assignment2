@@ -31,7 +31,7 @@ public class CrawlerThread extends Thread{
     @Override
     public void run() {
         this.page = new Page(url, 1);
-        readPageFromJsoup(page);
+        readPageRecursivelyFromJsoup(page);
         setupWriter();
         setupTranslation();
         translatePages(page);
@@ -73,7 +73,6 @@ public class CrawlerThread extends Thread{
                 translatePages(subPage);
             }
         }
-
     }
 
     private void setupWriter() {
@@ -101,17 +100,34 @@ public class CrawlerThread extends Thread{
         jsoupWrapper = new JsoupWrapper();
     }
 
-    private void readPageFromJsoup(Page page) {
+    /**
+     * This method reads a page and its subpages recursively, while setting header and link attributes
+     * @param page The page to be read
+     */
+    private void readPageRecursivelyFromJsoup(Page page) {
         try {
             setUpJsoupWrapper();
             jsoupWrapper.readWebPage(page.getUrl());
             setPageElements(page);
             checkForDepthAndCallForNextDepth(page);
         } catch (Exception e) {
-            page.setBroken(true);
-            LOGGER.info("Broken Link detected: {}",page.getUrl());
+            handleStatusInformation(page);
         }
     }
+
+    private void handleStatusInformation(Page page) {
+        addStatusInformation(page);
+        logStatusInformation(page);
+    }
+
+    private void addStatusInformation(Page page){
+        page.setBroken(true);
+    }
+
+    private void logStatusInformation(Page page){
+        LOGGER.info("Broken Link detected: {}",page.getUrl());
+    }
+
     private void setPageElements(Page page){
         page.setHeaderStringList(jsoupWrapper.getHeadersList());
         page.setSubPages(jsoupWrapper.getLinkList());
@@ -120,7 +136,7 @@ public class CrawlerThread extends Thread{
     private void checkForDepthAndCallForNextDepth(Page page){
         if(page.getDepth()<maxDepth){
             for (Page subPage : page.getSubPage()) {
-                readPageFromJsoup(subPage);
+                readPageRecursivelyFromJsoup(subPage);
             }
         }
     }
