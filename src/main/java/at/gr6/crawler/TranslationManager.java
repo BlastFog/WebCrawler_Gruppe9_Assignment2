@@ -36,7 +36,6 @@ public class TranslationManager {
         }
     }
 
-
     public String getSourceLang() {
         return this.sourceLang;
     }

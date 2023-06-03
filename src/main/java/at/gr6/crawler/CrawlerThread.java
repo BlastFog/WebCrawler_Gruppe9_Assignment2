@@ -14,12 +14,11 @@ public class CrawlerThread extends Thread{
     private TranslationManager translationManager;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
-    private ReportWriter filer;
+    private FileOutput filer;
     private Page page;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     private JsoupWrapper jsoupWrapper;
     private LanguageStatisticsProvider languageStatistics;
-    //private CrawlerThread proxyInstance;
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
@@ -27,12 +26,6 @@ public class CrawlerThread extends Thread{
         this.translate = translate;
         this.url = url;
         this.languageStatistics = new LanguageStatisticsManager();
-
-        /*this.proxyInstance = (CrawlerThread) Proxy.newProxyInstance(
-                CrawlerThread.class.getClassLoader(),
-                new Class[] {CrawlerThread.class},
-                new DynamicInvocationHandler()
-        );*/
     }
 
     @Override
@@ -49,6 +42,7 @@ public class CrawlerThread extends Thread{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     private void writeLangHeader() {
@@ -116,8 +110,6 @@ public class CrawlerThread extends Thread{
         } catch (Exception e) {
             page.setBroken(true);
             LOGGER.info("Broken Link detected: {}",page.getUrl());
-            //proxyInstance.get("Broken Link detected:"+page.getUrl());
-            //proxyInstance.readPageFromJsoup(page);
         }
     }
     private void setPageElements(Page page){
@@ -130,7 +122,6 @@ public class CrawlerThread extends Thread{
             for (Page subPage : page.getSubPage()) {
                 readPageFromJsoup(subPage);
             }
-
         }
     }
 
