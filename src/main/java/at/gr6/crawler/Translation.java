@@ -6,7 +6,7 @@ import com.deepl.api.Translator;
 
 import java.util.ArrayList;
 
-public class TranslationManager {
+public class Translation {
     private Translator translator;
     private String sourceLangTag;
     private String targetLangTag;
@@ -15,7 +15,7 @@ public class TranslationManager {
     private boolean translate;
     private LanguageStatisticsProvider languageStatisticsProvider;
 
-    public TranslationManager(String targetLangTag, boolean translate, String authKey, LanguageStatisticsProvider languageStatisticsProvider) throws DeepLException, InterruptedException {
+    public Translation(String targetLangTag, boolean translate, String authKey, LanguageStatisticsProvider languageStatisticsProvider) throws DeepLException, InterruptedException {
         this.translator = new Translator(authKey);
         this.targetLangTag = targetLangTag;
         this.targetLang = LanguageTagConverter.getFullLanguage(targetLangTag);

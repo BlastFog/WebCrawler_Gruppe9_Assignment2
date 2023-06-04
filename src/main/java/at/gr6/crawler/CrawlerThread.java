@@ -7,11 +7,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class CrawlerThread extends Thread{
-
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
-    private TranslationManager translationManager;
+    private Translation translation;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private FileOutput filer;
@@ -47,8 +46,8 @@ public class CrawlerThread extends Thread{
 
     private void writeLangHeader() {
         try {
-            translationManager.setDetectedLanguage();
-            filer.writeLanguage(translationManager);
+            translation.setDetectedLanguage();
+            filer.writeLanguage(translation);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +55,7 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translationManager = new TranslationManager(targetLanguage, translate, authKey, languageStatistics);
+            translation = new Translation(targetLanguage, translate, authKey, languageStatistics);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +63,7 @@ public class CrawlerThread extends Thread{
 
     private void translatePages(Page page) {
         try {
-            translationManager.translatePage(page);
+            translation.translatePage(page);
         } catch (DeepLException|InterruptedException e) {
             throw new RuntimeException(e);
         } 
