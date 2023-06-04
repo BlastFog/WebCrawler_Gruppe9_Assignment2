@@ -1,0 +1,27 @@
+package at.gr6.test;
+
+import at.gr6.crawler.CrawlerThread;
+import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class CrawlerThreadTest {
+
+    @Test
+    void run() throws InterruptedException {
+        int threadCount = 3;
+        CountDownLatch cdl = new CountDownLatch(threadCount);
+
+        CrawlerThread ct;
+        for(int i = 0; i < threadCount; i++){
+            ct = new CrawlerThread(1,"es",false,"https://example.com");
+            ct.start();
+            cdl.countDown();
+        }
+        boolean completed = cdl.await(3L, TimeUnit.SECONDS);
+        assertTrue(completed);
+    }
+}

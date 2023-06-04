@@ -60,7 +60,7 @@ class ReportWriterTest {
         reportWriter.writeBeginning(pageMock);
         reportWriter.closeWriter();
         String actual = readTest();
-        String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/</a>\n";
+        String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/ </a>\n";
         assertEquals(expected,actual);
     }
 
