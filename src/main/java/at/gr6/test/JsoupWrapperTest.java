@@ -1,5 +1,6 @@
 package at.gr6.test;
 
+import at.gr6.crawler.CrawlerWrapper;
 import at.gr6.crawler.Header;
 import at.gr6.crawler.JsoupWrapper;
 import org.jsoup.Connection;
@@ -16,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class JsoupWrapperTest {
-    static JsoupWrapper jsoupWrapper;
+    static CrawlerWrapper jsoupWrapper;
     static Element mockElement;
     static Elements mockHeaderElements;
     static Elements mockLinkElements;
 
     @BeforeEach
-    private void setup(){
+    public void setup(){
         jsoupWrapper = new JsoupWrapper();
         mockElement = mock(Element.class);
         mockHeaderElements = new Elements(mockElement);

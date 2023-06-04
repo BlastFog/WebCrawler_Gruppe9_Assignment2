@@ -25,7 +25,7 @@ class ReportWriterTest {
     Page page;
 
     @Mock
-    TranslationManager translationManagerMock = mock(TranslationManager.class);
+    DeepLTranslator deepLTranslatorMock = mock(DeepLTranslator.class);
 
     ReportWriter reportWriter;
 
@@ -60,15 +60,15 @@ class ReportWriterTest {
         reportWriter.writeBeginning(pageMock);
         reportWriter.closeWriter();
         String actual = readTest();
-        String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/</a>\n";
+        String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/ </a>\n";
         assertEquals(expected,actual);
     }
 
     @Test
     void writeLanguage() throws IOException {
-        when(translationManagerMock.getSourceLang()).thenReturn("German");
-        when(translationManagerMock.getTargetLang()).thenReturn("English(British)");
-        reportWriter.writeLanguage(translationManagerMock);
+        when(deepLTranslatorMock.getSourceLang()).thenReturn("German");
+        when(deepLTranslatorMock.getTargetLang()).thenReturn("English(British)");
+        reportWriter.writeLanguage(deepLTranslatorMock);
         reportWriter.closeWriter();
         String actual = readTest();
         String expected = "<br>source language: German\n<br>target language: English(British)\n<br>summary: \n";
@@ -110,9 +110,8 @@ class ReportWriterTest {
     }
 
     @AfterEach
-    void tearDown() throws IOException {
+    void tearDown() {
         File f = new File(path);
         assertTrue(f.delete());
-
     }
 }

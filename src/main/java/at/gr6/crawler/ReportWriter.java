@@ -12,7 +12,7 @@ public class ReportWriter implements FileOutput {
     /**
      * Empties the file
      *
-     * @param path
+     * @param path Path of the file
      * @throws IOException
      */
     public static void clearFile(String path) throws IOException {
@@ -28,11 +28,11 @@ public class ReportWriter implements FileOutput {
 
     public void writeBeginning(Page page) throws IOException {
         fileWriter.write("-----START OF FILE-----\n");
-        fileWriter.write("input: <a>" + page.getUrl() + "</a>");
+        fileWriter.write("input: <a>" + page.getUrl() + " </a>");
         fileWriter.write("\n");
     }
 
-    public void writeLanguage(TranslationManager language) throws IOException {
+    public void writeLanguage(Translation language) throws IOException {
         fileWriter.write("<br>source language: " + language.getSourceLang());
         fileWriter.write("\n");
         fileWriter.write("<br>target language: " + language.getTargetLang());

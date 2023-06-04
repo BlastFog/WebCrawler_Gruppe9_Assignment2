@@ -28,7 +28,6 @@ public class Main {
         for(int i = 0; i < numberOfLinks; i++){
             thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3]);
             thread.start();
-            //System.out.println(i);
         }
 
     }

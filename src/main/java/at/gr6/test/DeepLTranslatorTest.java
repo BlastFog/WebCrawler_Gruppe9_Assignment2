@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class TranslationManagerTest {
-    static TranslationManager translationManager;
+class DeepLTranslatorTest {
+    static Translation deepLTranslator;
     @BeforeEach
-    private void setup() throws DeepLException, InterruptedException{
+    public void setup() {
         LanguageStatisticsProvider languageStatistics = new LanguageStatistics();
-        translationManager = new TranslationManager("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx",languageStatistics);
+        deepLTranslator = new DeepLTranslator("en-GB",true,"56a1abfc-d443-0e69-8963-101833b4014e:fx",languageStatistics);
     }
 
     @Test
@@ -29,7 +29,7 @@ class TranslationManagerTest {
         headerList.add(new Header("Das ist ein Test",1));
         testPage.setHeaderStringList(headerList);
 
-        translationManager.translatePage(testPage);
+        deepLTranslator.translatePage(testPage);
 
         assertEquals(testPage.getHeaderList().get(0).getHeaderString(),translated1);
         assertEquals(testPage.getHeaderList().get(1).getHeaderString(),translated2);
@@ -38,13 +38,13 @@ class TranslationManagerTest {
     @Test
     void testGetSourceLang() throws DeepLException, InterruptedException {
         testTranslatePage();
-        translationManager.setDetectedLanguage();
-        assertEquals("German", translationManager.getSourceLang());
+        deepLTranslator.setDetectedLanguage();
+        assertEquals("German", deepLTranslator.getSourceLang());
     }
 
     @Test
     void testGetTargetLang() {
-        assertEquals("English (British)", translationManager.getTargetLang());
+        assertEquals("English (British)", deepLTranslator.getTargetLang());
     }
 
 

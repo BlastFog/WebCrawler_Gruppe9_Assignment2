@@ -1,8 +1,6 @@
 package at.gr6.test;
 
 import at.gr6.crawler.LanguageTagConverter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,8 +17,6 @@ class LanguageTagConverterTest {
     void getFullLanguage(String languageCode,String expectedfullLanguage) {
         String actualFullLanguage = LanguageTagConverter.getFullLanguage(languageCode);
         assertEquals(expectedfullLanguage,actualFullLanguage);
-
-
     }
 
     private static Stream<Arguments> languagesAndCodes(){
