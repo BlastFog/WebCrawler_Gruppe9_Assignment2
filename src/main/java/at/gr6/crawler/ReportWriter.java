@@ -12,7 +12,7 @@ public class ReportWriter implements FileOutput {
     /**
      * Empties the file
      *
-     * @param path
+     * @param path Path of the file
      * @throws IOException
      */
     public static void clearFile(String path) throws IOException {
@@ -28,7 +28,7 @@ public class ReportWriter implements FileOutput {
 
     public void writeBeginning(Page page) throws IOException {
         fileWriter.write("-----START OF FILE-----\n");
-        fileWriter.write("input: <a>" + page.getUrl() + "</a>");
+        fileWriter.write("input: <a>" + page.getUrl() + " </a>");
         fileWriter.write("\n");
     }
 

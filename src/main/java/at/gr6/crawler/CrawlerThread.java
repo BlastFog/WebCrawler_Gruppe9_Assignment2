@@ -1,6 +1,5 @@
 package at.gr6.crawler;
 
-import com.deepl.api.DeepLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,14 +9,18 @@ public class CrawlerThread extends Thread{
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
-    private Translation translation;
+    private Translation deepLTranslator;
     private final boolean translate;
     private final String authKey = "56a1abfc-d443-0e69-8963-101833b4014e:fx";
     private FileOutput filer;
     private Page page;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
-    private JsoupWrapper jsoupWrapper;
+    private static final Logger LOGGER;
+    private CrawlerWrapper jsoupWrapper;
     private LanguageStatisticsProvider languageStatistics;
+
+    static {
+        LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
+    }
 
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
@@ -46,8 +49,8 @@ public class CrawlerThread extends Thread{
 
     private void writeLangHeader() {
         try {
-            translation.setDetectedLanguage();
-            filer.writeLanguage(translation);
+            deepLTranslator.setDetectedLanguage();
+            filer.writeLanguage(deepLTranslator);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,16 +58,16 @@ public class CrawlerThread extends Thread{
 
     private void setupTranslation() {
         try {
-            translation = new Translation(targetLanguage, translate, authKey, languageStatistics);
-        } catch (DeepLException|InterruptedException e) {
+            deepLTranslator = new DeepLTranslator(targetLanguage, translate, authKey, languageStatistics);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private void translatePages(Page page) {
         try {
-            translation.translatePage(page);
-        } catch (DeepLException|InterruptedException e) {
+            deepLTranslator.translatePage(page);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } 
         if (this.page.getDepth() < maxDepth) {

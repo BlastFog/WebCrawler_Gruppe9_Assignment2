@@ -3,12 +3,14 @@ package at.gr6.crawler;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class JsoupWrapper {
+public class JsoupWrapper implements CrawlerWrapper{
     private Elements headers;
     private Elements links;
     private JsoupProvider jsoupProvider;
+    private final static int TAG_NAME_INDEX = 1;
 
     public JsoupWrapper() {
         this.jsoupProvider = new JsoupAdapter();
@@ -26,7 +28,7 @@ public class JsoupWrapper {
         this.links = links;
     }
 
-    public void readWebPage(String url) throws Exception {
+    public void readWebPage(String url) throws IOException {
         jsoupProvider.connect(url);
         this.links = jsoupProvider.select("a[href]");
         this.headers = jsoupProvider.select("h1,h2,h3,h4,h5,h6");
@@ -43,7 +45,7 @@ public class JsoupWrapper {
     }
 
     private int getHeaderGrade(Element header) {
-        return Integer.parseInt("" + header.tagName().charAt(1));
+        return Integer.parseInt("" + header.tagName().charAt(TAG_NAME_INDEX));
     }
 
     public ArrayList<String> getLinkList() {

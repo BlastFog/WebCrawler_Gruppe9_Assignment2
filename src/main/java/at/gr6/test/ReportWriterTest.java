@@ -25,7 +25,7 @@ class ReportWriterTest {
     Page page;
 
     @Mock
-    Translation translationMock = mock(Translation.class);
+    DeepLTranslator deepLTranslatorMock = mock(DeepLTranslator.class);
 
     ReportWriter reportWriter;
 
@@ -66,9 +66,9 @@ class ReportWriterTest {
 
     @Test
     void writeLanguage() throws IOException {
-        when(translationMock.getSourceLang()).thenReturn("German");
-        when(translationMock.getTargetLang()).thenReturn("English(British)");
-        reportWriter.writeLanguage(translationMock);
+        when(deepLTranslatorMock.getSourceLang()).thenReturn("German");
+        when(deepLTranslatorMock.getTargetLang()).thenReturn("English(British)");
+        reportWriter.writeLanguage(deepLTranslatorMock);
         reportWriter.closeWriter();
         String actual = readTest();
         String expected = "<br>source language: German\n<br>target language: English(British)\n<br>summary: \n";
@@ -110,9 +110,8 @@ class ReportWriterTest {
     }
 
     @AfterEach
-    void tearDown() throws IOException {
+    void tearDown() {
         File f = new File(path);
         assertTrue(f.delete());
-
     }
 }

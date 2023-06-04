@@ -24,7 +24,4 @@ public class LanguageStatistics implements LanguageStatisticsProvider{
         return lang;
     }
 
-    public HashMap<String, Integer> getLanguageStatistics() {
-        return languageStatistics;
-    }
 }

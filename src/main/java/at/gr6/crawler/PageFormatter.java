@@ -38,12 +38,10 @@ public class PageFormatter implements Formatter {
 
     private String appendLinkWithStatus(Page p){
         String linkStatus = "";
-        if(p.isBroken()) {
+        if(p.isBroken())
             linkStatus += brokenLinkString + p.getUrl() + "</a>\n";
-        }
-        else {
+        else
             linkStatus += normalLinkString + p.getUrl() + "</a>\n";
-        }
         return linkStatus;
     }
 
@@ -53,16 +51,14 @@ public class PageFormatter implements Formatter {
         outputString += ">";
     }
     private void addHeaderGrade(Header header){
-        for(int i=0;i<header.getHeaderGrade();i++){
+        for(int i=0;i<header.getHeaderGrade();i++)
             outputString+="#";
-        }
         outputString+=" ";
     }
 
     public String getOutputString() throws Exception {
-        if (outputString!=null){
+        if (outputString!=null)
             return outputString;
-        }else throw new Exception("Output String must be generated first");
+        else throw new Exception("Output String must be generated first");
     }
-
 }
