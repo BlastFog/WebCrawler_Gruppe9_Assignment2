@@ -106,7 +106,15 @@ class ReportWriterTest {
         }
         bufferedReader.close();
         return result;
+    }
 
+    @Test
+    void clearFileTest() throws Exception {
+       writeBody();
+       ReportWriter.clearFile(path);
+       String actual=readTest();
+       String expected = "";
+       assertEquals(expected,actual);
     }
 
     @AfterEach
