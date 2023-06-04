@@ -25,7 +25,7 @@ public class CrawlerThread extends Thread{
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
-        this.languageStatistics = new LanguageStatisticsManager();
+        this.languageStatistics = new LanguageStatistics();
     }
 
     @Override
