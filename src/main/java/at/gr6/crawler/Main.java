@@ -23,10 +23,7 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         CrawlerThread thread;
-
-
 
         for(int i = 0; i < numberOfLinks; i++){
             thread = new CrawlerThread(maxDepth,targetLanguage,translate,args[i+3]);
