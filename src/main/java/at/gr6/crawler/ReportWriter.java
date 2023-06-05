@@ -27,8 +27,8 @@ public class ReportWriter implements FileOutput {
     }
 
     public void writeBeginning(Page page) throws IOException {
-        fileWriter.write("-----START OF FILE-----\n");
-        fileWriter.write("input: <a>" + page.getUrl() + " </a>");
+        fileWriter.write("<br>-----START OF FILE-----");
+        fileWriter.write("<br>input: <a>" + page.getUrl() + " </a>");
         fileWriter.write("\n");
     }
 

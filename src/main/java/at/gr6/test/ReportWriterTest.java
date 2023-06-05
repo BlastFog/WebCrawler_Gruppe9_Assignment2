@@ -60,7 +60,7 @@ class ReportWriterTest {
         reportWriter.writeBeginning(pageMock);
         reportWriter.closeWriter();
         String actual = readTest();
-        String expected = "-----START OF FILE-----\ninput: <a>https://orf.at/ </a>\n";
+        String expected = "<br>-----START OF FILE-----<br>input: <a>https://orf.at/ </a>\n";
         assertEquals(expected,actual);
     }
 
@@ -81,10 +81,8 @@ class ReportWriterTest {
         assertDoesNotThrow(() -> reportWriter.writeBody(page));
         reportWriter.closeWriter();
         String actual = readTest();
-        String expected = "### ->Sample Header\n<br> -->link to <a>https://orf.at/news</a>\n";
+        String expected = "### ->Sample Header <br>\n<br> -->link to <a>https://orf.at/news</a>\n\n";
         assertEquals(expected,actual);
-
-
     }
 
     @Test

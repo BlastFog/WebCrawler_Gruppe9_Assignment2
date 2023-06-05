@@ -25,7 +25,7 @@ public class PageFormatter implements Formatter {
             addHeaderGrade(header);
             addIndentation(page.getDepth());
             outputString += header.getHeaderString();
-            outputString +="\n";
+            outputString +=" <br>\n";
         }
     }
     private void appendLinks(){
@@ -39,9 +39,9 @@ public class PageFormatter implements Formatter {
     private String appendLinkWithStatus(Page p){
         String linkStatus = "";
         if(p.isBroken())
-            linkStatus += brokenLinkString + p.getUrl() + "</a>\n";
+            linkStatus += brokenLinkString + p.getUrl() + "</a>\n\n";
         else
-            linkStatus += normalLinkString + p.getUrl() + "</a>\n";
+            linkStatus += normalLinkString + p.getUrl() + "</a>\n\n";
         return linkStatus;
     }
 
