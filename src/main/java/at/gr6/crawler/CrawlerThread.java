@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class CrawlerThread extends Thread{
+public class CrawlerThread extends Thread {
     private final String targetLanguage;
     private final String url;
     private final int maxDepth;
@@ -19,17 +21,20 @@ public class CrawlerThread extends Thread{
     private CrawlerWrapper jsoupWrapper;
     private LanguageStatisticsProvider languageStatistics;
     private CountDownLatch countDownLatch;
+    private static final Lock fileWriteLock;
 
     static {
         LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
+        fileWriteLock = new ReentrantLock();
     }
 
     /**
      * This is the standard constructor
-     * @param depth Depth to crawl
+     *
+     * @param depth          Depth to crawl
      * @param targetLanguage Target language to translate to
-     * @param translate Translate boolean
-     * @param url Url to crawl
+     * @param translate      Translate boolean
+     * @param url            Url to crawl
      */
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
@@ -41,10 +46,11 @@ public class CrawlerThread extends Thread{
 
     /**
      * This is a constructor for testing purposes
-     * @param depth Depth to crawl
+     *
+     * @param depth          Depth to crawl
      * @param targetLanguage Target language to translate to
-     * @param translate Translate boolean
-     * @param url Url to crawl
+     * @param translate      Translate boolean
+     * @param url            Url to crawl
      * @param countDownLatch CountDownLatch to countdown after a thread is finished
      */
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url, CountDownLatch countDownLatch) {
@@ -60,18 +66,26 @@ public class CrawlerThread extends Thread{
     public void run() {
         this.page = new Page(url, 1);
         readPageRecursivelyFromJsoup(page);
-        setupWriter();
         setupTranslation();
         translatePages(page);
-        writeLangHeader();
-        writeToFile(page);
+        synchronizedFileWritingForThreads();
         try {
             filer.closeFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if(countDownLatch != null)
+        if (countDownLatch != null)
             countDownLatch.countDown();
+    }
+
+    private void synchronizedFileWritingForThreads(){
+        fileWriteLock.lock();
+
+        setupWriter();
+        writeLangHeader();
+        writeToFile(page);
+
+        fileWriteLock.unlock();
     }
 
     private void writeLangHeader() {
@@ -96,7 +110,7 @@ public class CrawlerThread extends Thread{
             deepLTranslator.translatePage(page);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } 
+        }
         if (this.page.getDepth() < maxDepth) {
             for (Page subPage : page.getSubPage()) {
                 translatePages(subPage);
@@ -125,12 +139,14 @@ public class CrawlerThread extends Thread{
             }
         }
     }
-    private void setUpJsoupWrapper(){
+
+    private void setUpJsoupWrapper() {
         jsoupWrapper = new JsoupWrapper();
     }
 
     /**
      * This method reads a page and its subpages recursively, while setting header and link attributes
+     *
      * @param page The page to be read
      */
     private void readPageRecursivelyFromJsoup(Page page) {
@@ -149,21 +165,21 @@ public class CrawlerThread extends Thread{
         logStatusInformation(page);
     }
 
-    private void addStatusInformation(Page page){
+    private void addStatusInformation(Page page) {
         page.setBroken(true);
     }
 
-    private void logStatusInformation(Page page){
-        LOGGER.info("Broken Link detected: {}",page.getUrl());
+    private void logStatusInformation(Page page) {
+        LOGGER.info("Broken Link detected: {}", page.getUrl());
     }
 
-    private void setPageElements(Page page){
+    private void setPageElements(Page page) {
         page.setHeaderStringList(jsoupWrapper.getHeadersList());
         page.setSubPages(jsoupWrapper.getLinkList());
     }
 
-    private void checkForDepthAndCallForNextDepth(Page page){
-        if(page.getDepth()<maxDepth){
+    private void checkForDepthAndCallForNextDepth(Page page) {
+        if (page.getDepth() < maxDepth) {
             for (Page subPage : page.getSubPage()) {
                 readPageRecursivelyFromJsoup(subPage);
             }
