@@ -3,7 +3,7 @@ package at.gr6.crawler;
 import java.util.HashMap;
 
 public class LanguageStatistics implements LanguageStatisticsProvider{
-    private static HashMap<String, Integer> languageStatistics = new HashMap<>();
+    private HashMap<String, Integer> languageStatistics = new HashMap<>();
 
     public void updateLanguageStatistics(String detectedLanguage) {
         if (!languageStatistics.containsKey(detectedLanguage))
