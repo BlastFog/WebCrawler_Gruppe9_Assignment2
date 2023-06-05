@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class CrawlerThread extends Thread{
     private final String targetLanguage;
@@ -17,17 +18,42 @@ public class CrawlerThread extends Thread{
     private static final Logger LOGGER;
     private CrawlerWrapper jsoupWrapper;
     private LanguageStatisticsProvider languageStatistics;
+    private CountDownLatch countDownLatch;
 
     static {
         LOGGER = LoggerFactory.getLogger(CrawlerThread.class);
     }
 
+    /**
+     * This is the standard constructor
+     * @param depth Depth to crawl
+     * @param targetLanguage Target language to translate to
+     * @param translate Translate boolean
+     * @param url Url to crawl
+     */
     public CrawlerThread(int depth, String targetLanguage, boolean translate, String url) {
         this.maxDepth = depth;
         this.targetLanguage = targetLanguage;
         this.translate = translate;
         this.url = url;
         this.languageStatistics = new LanguageStatistics();
+    }
+
+    /**
+     * This is a constructor for testing purposes
+     * @param depth Depth to crawl
+     * @param targetLanguage Target language to translate to
+     * @param translate Translate boolean
+     * @param url Url to crawl
+     * @param countDownLatch CountDownLatch to countdown after a thread is finished
+     */
+    public CrawlerThread(int depth, String targetLanguage, boolean translate, String url, CountDownLatch countDownLatch) {
+        this.maxDepth = depth;
+        this.targetLanguage = targetLanguage;
+        this.translate = translate;
+        this.url = url;
+        this.languageStatistics = new LanguageStatistics();
+        this.countDownLatch = countDownLatch;
     }
 
     @Override
@@ -44,7 +70,8 @@ public class CrawlerThread extends Thread{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        if(countDownLatch != null)
+            countDownLatch.countDown();
     }
 
     private void writeLangHeader() {
