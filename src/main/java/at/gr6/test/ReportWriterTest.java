@@ -14,33 +14,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ReportWriterTest {
-
     String path = "writer_test.md";
-
-
-
     @Mock
     Page pageMock = mock(Page.class);
-
     Page page;
-
     @Mock
     DeepLTranslator deepLTranslatorMock = mock(DeepLTranslator.class);
-
     ReportWriter reportWriter;
-
-
-
     FileReader reader;
     BufferedReader bufferedReader;
 
     @BeforeEach
     void setUp() throws IOException {
         reportWriter = new ReportWriter(path);
-
-
-
-        //pageMock = new Page("https://orf.at/",1);
     }
 
     private void generateSamplePage(){
@@ -55,7 +41,6 @@ class ReportWriterTest {
 
     @Test
     void writeBeginning() throws IOException {
-
         when(pageMock.getUrl()).thenReturn("https://orf.at/");
         reportWriter.writeBeginning(pageMock);
         reportWriter.closeWriter();
@@ -81,7 +66,7 @@ class ReportWriterTest {
         assertDoesNotThrow(() -> reportWriter.writeBody(page));
         reportWriter.closeWriter();
         String actual = readTest();
-        String expected = "### ->Sample Header <br>\n<br> -->link to <a>https://orf.at/news</a>\n\n";
+        String expected = "### ->Sample Header \n<br> -->link to <a>https://orf.at/news</a>\n\n";
         assertEquals(expected,actual);
     }
 
@@ -91,20 +76,16 @@ class ReportWriterTest {
         String actual = readTest();
         String expected = "\n-----END OF FILE-----\n";
         assertEquals(expected,actual);
-
-
     }
     private String readTest() throws IOException {
         reader = new FileReader(path);
         bufferedReader = new BufferedReader(reader);
         int i;
         String result = "";
-        while((i=bufferedReader.read())!=-1){
+        while((i=bufferedReader.read())!=-1)
             result+=(char)i;
-        }
         bufferedReader.close();
         return result;
-
     }
 
     @AfterEach

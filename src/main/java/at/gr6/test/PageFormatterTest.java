@@ -14,8 +14,8 @@ class PageFormatterTest {
     Page page;
     ArrayList<Header> headerList;
     ArrayList<String> linkList;
-    String expectedOutput = "### ->Sample Header <br>\n<br> -->link to <a>https://orf.at/news</a>\n\n";
-    String expectedBrokenOutput = "### ->Sample Header <br>\n<br> -->broken link <a>https://orf.at/news</a>\n\n";
+    String expectedOutput = "### ->Sample Header \n<br> -->link to <a>https://orf.at/news</a>\n\n";
+    String expectedBrokenOutput = "### ->Sample Header \n<br> -->broken link <a>https://orf.at/news</a>\n\n";
 
     PageFormatter formatter;
 

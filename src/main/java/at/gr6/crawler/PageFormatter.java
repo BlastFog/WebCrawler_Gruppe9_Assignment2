@@ -25,7 +25,7 @@ public class PageFormatter implements Formatter {
             addHeaderGrade(header);
             addIndentation(page.getDepth());
             outputString += header.getHeaderString();
-            outputString +=" <br>\n";
+            outputString +=" \n";
         }
     }
     private void appendLinks(){
